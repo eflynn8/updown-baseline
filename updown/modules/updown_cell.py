@@ -192,7 +192,7 @@ class UpDownCell(nn.Module):
 
         # shape: (batch_size, image_feature_size)
         averaged_image_features = masked_mean(
-            image_features, image_features_mask.unsqueeze(-1).type(torch.ByteTensor), dim=1
+            image_features, image_features_mask.unsqueeze(-1).type(torch.cuda.ByteTensor), dim=1
         )
 
         return averaged_image_features, image_features_mask
