@@ -17,6 +17,8 @@ from updown.types import (
 )
 from updown.utils.constraints import ConstraintFilter, FiniteStateMachineBuilder
 
+SUBSET_SIZE_TRAIN = 10000
+SUBSET_SIZE_VAL   = 1000
 
 class TrainingDataset(Dataset):
     r"""
@@ -73,7 +75,10 @@ class TrainingDataset(Dataset):
 
     def __len__(self) -> int:
         # Number of training examples are number of captions, not number of images.
-        return len(self._captions_reader)
+        if len(self._captions_reader) < SUBSET_SIZE_TRAIN:
+            return len(self._captions_reader)
+        else:
+            return SUBSET_SIZE_TRAIN
 
     def __getitem__(self, index: int) -> TrainingInstance:
         image_id, caption = self._captions_reader[index]
@@ -146,7 +151,10 @@ class EvaluationDataset(Dataset):
         return cls(image_features_h5path=_C.DATA.INFER_FEATURES, in_memory=kwargs.pop("in_memory"))
 
     def __len__(self) -> int:
-        return len(self._image_ids)
+        if len(self._image_ids) < SUBSET_SIZE_VAL:
+            return len(self._image_ids)
+        else:
+            return SUBSET_SIZE_VAL
 
     def __getitem__(self, index: int) -> EvaluationInstance:
         image_id = self._image_ids[index]
