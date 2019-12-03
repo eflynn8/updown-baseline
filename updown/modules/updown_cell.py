@@ -191,7 +191,7 @@ class UpDownCell(nn.Module):
         image_features_mask = torch.sum(torch.abs(image_features), dim=-1) > 0
 
         # shape: (batch_size, image_feature_size)
-        averaged_image_features = masked_mean(
+        averaged_image_features = _masked_mean(
             image_features, image_features_mask.unsqueeze(-1), dim=1
         )
 
