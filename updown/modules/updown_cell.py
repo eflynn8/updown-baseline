@@ -158,7 +158,7 @@ class UpDownCell(nn.Module):
 
         return states["h2"], states
 
-    def _masked_mean(self,
+    def custom_masked_mean(self,
                     vector: torch.Tensor,
                     mask: torch.Tensor,
                     dim: int,
@@ -222,7 +222,7 @@ class UpDownCell(nn.Module):
         image_features_mask = torch.sum(torch.abs(image_features), dim=-1) > 0
 
         # shape: (batch_size, image_feature_size)
-        averaged_image_features = _masked_mean(
+        averaged_image_features = custom_masked_mean(
             image_features, image_features_mask.unsqueeze(-1), dim=1
         )
 
