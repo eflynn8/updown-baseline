@@ -64,7 +64,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--checkpoint-every",
-    default=1000,
+    default=10,
     type=int,
     help="Save a checkpoint after every this many epochs/iterations.",
 )
@@ -218,8 +218,8 @@ if __name__ == "__main__":
         lr_scheduler.step()
 
         # Log loss and learning rate to tensorboard.
-        if iteration % 10 == 0:
-            print(type(batch_loss))
+        # if iteration % 10 == 0:
+        #     print(type(batch_loss))
         tensorboard_writer.add_scalar("loss", batch_loss, iteration)
         tensorboard_writer.add_scalar("learning_rate", optimizer.param_groups[0]["lr"], iteration)
 
