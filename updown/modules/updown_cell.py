@@ -196,7 +196,8 @@ class UpDownCell(nn.Module):
         )
 
         return averaged_image_features, image_features_mask
-     def _masked_mean(self,
+    
+    def _masked_mean(self,
                     vector: torch.Tensor,
                     mask: torch.Tensor,
                     dim: int,
