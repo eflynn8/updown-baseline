@@ -201,7 +201,7 @@ if __name__ == "__main__":
     #   TRAINING LOOP
     # --------------------------------------------------------------------------------------------
     for iteration in tqdm(range(start_iteration, _C.OPTIM.NUM_ITERATIONS + 1)):
-        print(iteration)
+        print("ITERATION IS GOING")
 
         # keys: {"image_id", "image_features", "caption_tokens"}
         batch = next(train_dataloader)
