@@ -201,7 +201,8 @@ if __name__ == "__main__":
     #   TRAINING LOOP
     # --------------------------------------------------------------------------------------------
     for iteration in tqdm(range(start_iteration, _C.OPTIM.NUM_ITERATIONS + 1)):
-        print("ITERATION IS GOING")
+        if iteration % 10 == 0:
+            print(iteration)
 
         # keys: {"image_id", "image_features", "caption_tokens"}
         batch = next(train_dataloader)
@@ -217,6 +218,8 @@ if __name__ == "__main__":
         lr_scheduler.step()
 
         # Log loss and learning rate to tensorboard.
+        if iteration % 10 == 0:
+            print("Loss: " + batch_loss)
         tensorboard_writer.add_scalar("loss", batch_loss, iteration)
         tensorboard_writer.add_scalar("learning_rate", optimizer.param_groups[0]["lr"], iteration)
 
