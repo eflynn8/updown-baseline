@@ -219,7 +219,7 @@ if __name__ == "__main__":
 
         # Log loss and learning rate to tensorboard.
         if iteration % 10 == 0:
-            print("Loss: " + batch_loss)
+            print(type(batch_loss))
         tensorboard_writer.add_scalar("loss", batch_loss, iteration)
         tensorboard_writer.add_scalar("learning_rate", optimizer.param_groups[0]["lr"], iteration)
 
