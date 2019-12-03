@@ -196,3 +196,33 @@ class UpDownCell(nn.Module):
         )
 
         return averaged_image_features, image_features_mask
+     def _masked_mean(self,
+                    vector: torch.Tensor,
+                    mask: torch.Tensor,
+                    dim: int,
+                    keepdim: bool = False,
+                    eps: float = 1e-8) -> torch.Tensor:
+        """
+        To calculate mean along certain dimensions on masked values
+        Parameters
+        ----------
+        vector : ``torch.Tensor``
+            The vector to calculate mean.
+        mask : ``torch.Tensor``
+            The mask of the vector. It must be broadcastable with vector.
+        dim : ``int``
+            The dimension to calculate mean
+        keepdim : ``bool``
+            Whether to keep dimension
+        eps : ``float``
+            A small value to avoid zero division problem.
+        Returns
+        -------
+        A ``torch.Tensor`` of including the mean values.
+        """
+        one_minus_mask = torch.bitwise_not(mask).to(dtype=torch.bool)
+        replaced_vector = vector.masked_fill(one_minus_mask, 0.0)
+
+        value_sum = torch.sum(replaced_vector, dim=dim, keepdim=keepdim)
+        value_count = torch.sum(mask.float(), dim=dim, keepdim=keepdim)
+        return value_sum / value_count.clamp(min=eps)
